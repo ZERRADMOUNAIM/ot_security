@@ -123,46 +123,57 @@ class GroqService:
 
     def analyze_ot_request(self, user_input):
         """
-        Analyze an OT operational/cybersecurity request using the Groq LLM.
-        
-        Args:
-            user_input: The user's OT scenario description.
-            
-        Returns:
-            dict: Structured cybersecurity assessment.
+        Analyze an OT operational/cybersecurity request using Groq LLM with fallback support.
+        If the primary model reaches rate limits, it automatically tries backup models.
         """
         if not self.client:
             logger.error("Groq client not initialized. Check GROQ_API_KEY.")
             return self._get_fallback_response("Groq API key not configured.")
 
-        # Sanitize the input
+        # List of models to try in order of preference
+        models_to_try = [
+            self.model, # The one from .env (usually llama-3.3-70b-versatile)
+            "llama-3.3-70b-versatile",
+            "gemma2-9b-it"
+        ]
+        
+        # Remove duplicates while preserving order
+        models_to_try = list(dict.fromkeys(models_to_try))
+        
         sanitized_input = self._sanitize_input(user_input)
+        last_error = ""
 
-        try:
-            logger.info(f"Sending analysis request to Groq ({self.model})")
+        for current_model in models_to_try:
+            try:
+                logger.info(f"Attempting analysis with model: {current_model}")
+                
+                response = self.client.chat.completions.create(
+                    model=current_model,
+                    messages=[
+                        {"role": "system", "content": build_system_prompt()},
+                        {"role": "user", "content": build_analysis_prompt(sanitized_input)}
+                    ],
+                    temperature=0.3,
+                    max_tokens=4096,
+                    top_p=0.9,
+                )
 
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": build_system_prompt()
-                    },
-                    {
-                        "role": "user",
-                        "content": build_analysis_prompt(sanitized_input)
-                    }
-                ],
-                temperature=0.3,
-                max_tokens=4096,
-                top_p=0.9,
-            )
+                raw_content = response.choices[0].message.content
+                logger.info(f"Success with model {current_model}. Parsing response...")
+                return self._parse_response(raw_content)
 
-            raw_content = response.choices[0].message.content
-            logger.info("Received response from Groq, parsing...")
+            except Exception as e:
+                error_str = str(e).lower()
+                last_error = str(e)
+                
+                # Check if it's a rate limit error (429)
+                if "rate limit" in error_str or "429" in error_str:
+                    logger.warning(f"Rate limit reached for {current_model}. Switching to backup...")
+                    continue # Try the next model in the loop
+                else:
+                    # For other types of errors, we might want to fail immediately
+                    logger.error(f"Unexpected error with model {current_model}: {last_error}")
+                    return self._get_fallback_response(f"AI engine error: {last_error}")
 
-            return self._parse_response(raw_content)
-
-        except Exception as e:
-            logger.error(f"Groq API error: {str(e)}")
-            return self._get_fallback_response(f"AI engine error: {str(e)}")
+        # If we reach here, all models failed
+        return self._get_fallback_response(f"All models exhausted. Last error: {last_error}")
