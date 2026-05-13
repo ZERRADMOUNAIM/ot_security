@@ -1,0 +1,33 @@
+# Environnement virtuel
+venv/
+env/
+ENV/
+.venv/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flask / Instance
+instance/
+.webassets-cache
+.env
+.flaskenv
+
+# Base de données (si vous utilisez SQLite en local)
+*.db
+*.sqlite3
+
+# OS spécifiques
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

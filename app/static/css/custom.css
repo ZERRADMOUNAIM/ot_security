@@ -1,0 +1,378 @@
+/* OTMindset — Custom CSS (Sand Theme) */
+
+/* ===== Grid Background ===== */
+.cyber-grid-bg {
+    background-image:
+        linear-gradient(rgba(217, 207, 199, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(217, 207, 199, 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+.dark .cyber-grid-bg {
+    background-image:
+        linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(201, 181, 156, 0.4);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 181, 156, 0.7);
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.2);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.4);
+}
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(217, 207, 199, 0.6);
+    border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 181, 156, 0.8);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.3);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.6);
+}
+
+/* ===== Gradient Border Cards ===== */
+.gradient-border {
+    position: relative;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(201, 181, 156, 0.5), rgba(217, 207, 199, 0.2), rgba(201, 181, 156, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+.dark .gradient-border {
+    background: rgba(11, 15, 25, 0.8);
+}
+.dark .gradient-border::before {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.4));
+}
+
+/* ===== Glow Card ===== */
+.glow-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(217, 207, 199, 0.6);
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+.glow-card:hover {
+    border-color: rgba(201, 181, 156, 0.6);
+    box-shadow: 0 0 20px rgba(201, 181, 156, 0.15), 0 4px 20px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+.dark .glow-card {
+    background: rgba(11, 15, 25, 0.8);
+    border-color: rgba(6, 182, 212, 0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.dark .glow-card:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.15), 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== Analysis Cards ===== */
+.analysis-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(217, 207, 199, 0.5);
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+.analysis-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.analysis-card:hover {
+    border-color: rgba(201, 181, 156, 0.5);
+    box-shadow: 0 0 30px rgba(201, 181, 156, 0.1);
+}
+.dark .analysis-card {
+    background: rgba(11, 15, 25, 0.9);
+    border-color: rgba(6, 182, 212, 0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.dark .analysis-card:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.05);
+}
+
+/* Card accent strip */
+.card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+.card-accent-cyan { background: linear-gradient(90deg, #c9b59c, #d9cfc7); }
+.card-accent-yellow { background: linear-gradient(90deg, #eab308, #f59e0b); }
+.card-accent-purple { background: linear-gradient(90deg, #a855f7, #7c3aed); }
+.card-accent-red { background: linear-gradient(90deg, #ef4444, #f97316); }
+.card-accent-green { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+.card-accent-blue { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.card-accent-orange { background: linear-gradient(90deg, #f97316, #eab308); }
+.card-accent-teal { background: linear-gradient(90deg, #c9b59c, #d9cfc7); }
+
+/* ===== Analyze Button ===== */
+.btn-analyze {
+    background: linear-gradient(135deg, #c9b59c, #b8a38a);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(201, 181, 156, 0.3);
+}
+.btn-analyze:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(201, 181, 156, 0.4);
+}
+.btn-analyze:active {
+    transform: translateY(0);
+}
+.btn-analyze:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+.btn-analyze::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+.btn-analyze:hover::after {
+    transform: translateX(100%);
+}
+.dark .btn-analyze {
+    background: linear-gradient(135deg, #06b6d4, #14b8a6);
+    color: #000;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+}
+.dark .btn-analyze:hover {
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+}
+
+/* ===== Loading Spinner ===== */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Loading Skeleton ===== */
+.skeleton {
+    background: linear-gradient(90deg,
+        rgba(217, 207, 199, 0.3) 25%,
+        rgba(217, 207, 199, 0.5) 50%,
+        rgba(217, 207, 199, 0.3) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: 0.5rem;
+}
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.dark .skeleton {
+    background: linear-gradient(90deg,
+        rgba(31, 41, 55, 0.3) 25%,
+        rgba(31, 41, 55, 0.5) 50%,
+        rgba(31, 41, 55, 0.3) 75%
+    );
+    background-size: 200% 100%;
+}
+
+/* ===== Scan Line Effect ===== */
+.scan-effect {
+    position: relative;
+    overflow: hidden;
+}
+.scan-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201, 181, 156, 0.6), transparent);
+    animation: scan-line 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.scan-effect.scanning::after {
+    opacity: 1;
+}
+.dark .scan-effect::after {
+    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+}
+
+/* ===== Risk Score Ring ===== */
+.risk-ring {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.risk-ring svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.risk-ring circle {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+.risk-ring .ring-bg {
+    stroke: rgba(217, 207, 199, 0.5);
+}
+.dark .risk-ring .ring-bg {
+    stroke: rgba(31, 41, 55, 0.5);
+}
+.risk-ring .ring-fill {
+    transition: stroke-dashoffset 1s ease;
+}
+
+/* ===== Textarea ===== */
+.cyber-textarea {
+    background: #ffffff;
+    border: 1px solid rgba(217, 207, 199, 0.8);
+    border-radius: 0.75rem;
+    color: #1f2937;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+.cyber-textarea:focus {
+    outline: none;
+    border-color: rgba(201, 181, 156, 0.8);
+    box-shadow: 0 0 0 3px rgba(201, 181, 156, 0.15), 0 0 20px rgba(201, 181, 156, 0.05);
+}
+.cyber-textarea::placeholder {
+    color: rgba(156, 163, 175, 0.8);
+}
+.dark .cyber-textarea {
+    background: rgba(11, 15, 25, 0.6);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: #e5e7eb;
+}
+.dark .cyber-textarea:focus {
+    border-color: rgba(6, 182, 212, 0.6);
+    box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.6), 0 0 20px rgba(6, 182, 212, 0.1);
+}
+.dark .cyber-textarea::placeholder {
+    color: rgba(156, 163, 175, 0.5);
+}
+
+/* ===== Severity Badges ===== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid;
+    letter-spacing: 0.025em;
+}
+
+/* ===== Input Fields ===== */
+.cyber-input {
+    background: #ffffff;
+    border: 1px solid rgba(217, 207, 199, 0.8);
+    border-radius: 0.5rem;
+    color: #1f2937;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+.cyber-input:focus {
+    outline: none;
+    border-color: rgba(201, 181, 156, 0.8);
+    box-shadow: 0 0 0 3px rgba(201, 181, 156, 0.15);
+}
+.dark .cyber-input {
+    background: rgba(11, 15, 25, 0.6);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: #e5e7eb;
+}
+.dark .cyber-input:focus {
+    border-color: rgba(6, 182, 212, 0.6);
+    box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.6);
+}
+
+/* ===== Stagger Animation ===== */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* ===== Print Styles ===== */
+@media print {
+    .cyber-grid-bg, nav, .btn-analyze { display: none !important; }
+    body { background: white; color: black; }
+    .analysis-card { border: 1px solid #ccc; background: white; }
+}

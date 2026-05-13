@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %}Analysis #{{ analysis.id }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 relative z-10">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <a href="{{ url_for('dashboard.index') }}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-sand-300 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors w-fit">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+            Back to Dashboard
+        </a>
+        <div class="flex items-center gap-4 text-sm text-gray-500">
+            <span class="flex items-center gap-1.5 bg-white dark:bg-gray-900/50 px-2 py-1 rounded-md border border-sand-200 dark:border-gray-800">
+                <svg class="w-4 h-4 text-sand-300 dark:text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                {{ time_ago(analysis.created_at) }}
+            </span>
+            <span class="flex items-center gap-1.5 bg-white dark:bg-gray-900/50 px-2 py-1 rounded-md border border-sand-200 dark:border-gray-800">
+                <div class="w-5 h-5 rounded-full bg-sand-200 dark:bg-gray-800 flex items-center justify-center text-[10px] font-bold text-gray-700 dark:text-gray-300">G</div>
+                Guest Session
+            </span>
+        </div>
+    </div>
+
+    <!-- Scenario Card (User Request) -->
+    <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-white dark:bg-gray-900/40 border border-sand-200 dark:border-gray-800 shadow-sm dark:shadow-lg relative">
+        <div class="absolute -top-3 left-6 px-2 bg-white dark:bg-[#0b0f19]">
+            <span class="text-xs font-bold tracking-wider text-sand-300 dark:text-gray-500 uppercase">Original Scenario</span>
+        </div>
+        <p class="text-gray-800 dark:text-gray-200 text-lg leading-relaxed whitespace-pre-wrap font-medium">"{{ analysis.scenario }}"</p>
+    </div>
+
+    <!-- Main Results Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Left Column: Core Analysis -->
+        <div class="md:col-span-2 space-y-6">
+            <!-- What You Should Know -->
+            <div class="analysis-card p-6 bg-white border border-sand-200 shadow-sm relative visible overflow-hidden">
+                <div class="card-accent card-accent-cyan"></div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-sand-300 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    What You Should Know
+                </h2>
+                <ul class="space-y-3">
+                    {% for item in result.get('what_you_should_know', []) %}
+                    <li class="flex items-start gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-sand-300 dark:bg-cyan-500 mt-2 flex-shrink-0 dark:shadow-[0_0_8px_#06b6d4]"></span>
+                        <span class="text-gray-700 dark:text-gray-300 leading-relaxed">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- What You Should Ask -->
+            <div class="analysis-card p-6 bg-white border border-sand-200 shadow-sm relative visible overflow-hidden stagger-1">
+                <div class="card-accent card-accent-blue"></div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-sand-300 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Important Questions to Ask
+                </h2>
+                <ul class="space-y-3">
+                    {% for item in result.get('what_you_should_ask', []) %}
+                    <li class="flex items-start gap-3">
+                        <svg class="w-4 h-4 text-sand-300 dark:text-blue-400 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span class="text-gray-700 dark:text-gray-300 leading-relaxed font-medium italic">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Expected Risks -->
+            <div class="analysis-card p-6 bg-white border border-sand-200 shadow-sm relative visible overflow-hidden stagger-2">
+                <div class="card-accent card-accent-red"></div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    Expected Risks
+                </h2>
+                <ul class="space-y-3">
+                    {% for item in result.get('expected_risks', []) %}
+                    <li class="flex items-start gap-3 bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 p-3 rounded-lg">
+                        <svg class="w-4 h-4 text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        <span class="text-red-800 dark:text-red-200 font-medium">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Recommended Controls -->
+            <div class="analysis-card p-6 bg-white border border-sand-200 shadow-sm relative visible overflow-hidden stagger-3">
+                <div class="card-accent card-accent-green"></div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Recommended Security Controls
+                </h2>
+                <ul class="space-y-3">
+                    {% for item in result.get('recommended_controls', []) %}
+                    <li class="flex items-start gap-3 bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20 p-3 rounded-lg">
+                        <svg class="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span class="text-green-800 dark:text-green-200 font-medium">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Right Column: Sidebar (Score & Frameworks) -->
+        <div class="space-y-6">
+            
+            <!-- Risk Score Card -->
+            <div class="glow-card p-6 flex flex-col items-center text-center stagger-4 bg-white border border-sand-200">
+                <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Risk Level</h3>
+                
+                <div class="relative w-28 h-28 flex items-center justify-center mb-4">
+                    <svg class="w-full h-full -rotate-90 transform">
+                        <circle cx="56" cy="56" r="50" fill="none" stroke="currentColor" class="text-sand-200 dark:text-gray-700 opacity-40" stroke-width="8"></circle>
+                        <circle cx="56" cy="56" r="50" fill="none" 
+                            stroke="{{ '#ef4444' if risk_score >= 80 else '#f97316' if risk_score >= 60 else '#eab308' if risk_score >= 40 else '#22c55e' }}" 
+                            stroke-width="8" stroke-dasharray="314" stroke-dashoffset="{{ 314 - (314 * risk_score / 100) }}" stroke-linecap="round"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{ risk_score }}</span>
+                        <span class="text-[10px] text-gray-500 uppercase">/100</span>
+                    </div>
+                </div>
+
+                <span class="badge {{ severity_bg(analysis.severity) }} text-sm px-4 py-1.5 shadow-sm dark:shadow-[0_0_15px_currentColor]">{{ analysis.severity }} Risk</span>
+            </div>
+
+            <!-- References & Standards Card -->
+            <div class="analysis-card p-6 bg-white border border-sand-200 shadow-sm relative visible overflow-hidden stagger-5">
+                <div class="card-accent card-accent-purple"></div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-purple-500 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Framework Mapping
+                </h2>
+                
+                <div class="space-y-5">
+                    {% set refs = result.get('references_and_standards', {}) %}
+                    
+                    {% if refs.get('otcc') %}
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30">OTCC</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            {% for item in refs.get('otcc') %}
+                            <li class="text-sm text-gray-600 dark:text-gray-300 flex items-start gap-2">
+                                <span class="text-blue-500 mt-0.5 opacity-50">#</span> {{ item }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if refs.get('iec_62443') %}
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-100 dark:bg-teal-500/20 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-500/30">IEC 62443</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            {% for item in refs.get('iec_62443') %}
+                            <li class="text-sm text-gray-600 dark:text-gray-300 flex items-start gap-2">
+                                <span class="text-teal-500 mt-0.5 opacity-50">#</span> {{ item }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if refs.get('nist_sp_800_82') %}
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30">NIST 800-82</span>
+                        </div>
+                        <ul class="space-y-1.5">
+                            {% for item in refs.get('nist_sp_800_82') %}
+                            <li class="text-sm text-gray-600 dark:text-gray-300 flex items-start gap-2">
+                                <span class="text-purple-500 mt-0.5 opacity-50">#</span> {{ item }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
